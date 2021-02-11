@@ -1,5 +1,6 @@
 package generador_contras;
 
+import java.util.Random;
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -8,19 +9,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class generador extends JFrame {
-
+    private boolean Mayus, Minus, Num, Simb;
     private JButton generar, ver_contras, num_rand;
     private JLabel contraseña, texto_contr;
-    private JTextField caracteres;
-    private ImageIcon logo;
+    private JRadioButton Mayusculas, Minusculas, Numeros, Simbolos;
+    SpinnerModel caracteres = new SpinnerNumberModel(8, 8, 15, 1);
+
     public generador() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
 
         JPanel p2 = new JPanel();
         p2.setLayout(new GridLayout(3, 2, 20, 20));
-        JPanel p5= new JPanel();
-        p5.setLayout(new GridLayout(1,2,10,10));
+        JPanel p5 = new JPanel();
+        p5.setLayout(new GridLayout(1, 2, 10, 10));
         texto_contr = new JLabel("La contraseña es:");
         p5.add(texto_contr);
         contraseña = new JLabel("");
@@ -30,24 +32,31 @@ public class generador extends JFrame {
 
         p2.add(new JLabel());
         JPanel p3 = new JPanel();
+        JSpinner spin1 = new JSpinner(caracteres);
+        ((JSpinner.DefaultEditor) spin1.getEditor()).getTextField().setEditable(false);
+        p3.setLayout(new GridLayout(2, 1, -20, -20));
+        p3.add(new JLabel("cantidad de caracteres"));
+        p3.add(spin1);
 
-        p3.setLayout(new GridLayout(1, 2, 10, 10));
-        caracteres = new JTextField();
-        p3.add(caracteres);
-        num_rand = new JButton("numero aleatorio");
-        p3.add(num_rand);
-        num_rand.addActionListener(new numero_aleatorio());
 
         JPanel p4 = new JPanel();
         p4.setLayout(new GridLayout(4, 1, 10, 10));
-        p4.add(new JRadioButton("Mayusculas"));
-        p4.add(new JRadioButton("Minusculas"));
-        p4.add(new JRadioButton("Numeros"));
-        p4.add(new JRadioButton("Simbolos"));
+        Mayusculas = new JRadioButton("Mayusculas");
+        p4.add(Mayusculas);
+        Mayusculas.addActionListener(new revisaMayus());
+        Minusculas = new JRadioButton("Minusculas");
+        p4.add(Minusculas);
+        Minusculas.addActionListener(new revisadormin());
+        Numeros = new JRadioButton("Numeros");
+        p4.add(Numeros);
+        Numeros.addActionListener(new revisaNUM());
+        Simbolos = new JRadioButton("Simbolos");
+        p4.add(Simbolos);
+        Simbolos.addActionListener(new revisasimb());
         p2.add(p3);
         p2.add(p4);
+
         generar = new JButton("Generar");
-        generar.setSize(new Dimension(10,10));
         p2.add(generar);
         generar.addActionListener(new generar_contraseña());
         ver_contras = new JButton("ver contraseñas");
@@ -64,18 +73,28 @@ public class generador extends JFrame {
     }
 
 
-    private class numero_aleatorio implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            caracteres.setText(String.valueOf((int) (Math.random() * 20 + 1)));
-        }
-    }
-
-
     private class generar_contraseña implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            contraseña.setText("hola");
+
+            int cantidad = (int) caracteres.getValue();
+            final char[] letras =
+                    {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'e', 'h', 'i', 'j', 'l', 'k', 'm',
+                            'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+                            '@', '#', '!', '$', '€', '&', '[', ']'};
+
+            String temporal = "";
+
+            Random aleatorio = new Random();
+            for (int i = 0; i < cantidad; i++) {
+                temporal += letras[aleatorio.nextInt(letras.length)];
+
+            }
+
+            contraseña.setText(temporal);
         }
     }
 
@@ -85,4 +104,50 @@ public class generador extends JFrame {
             contraseñas.main();
         }
     }
+
+    private class revisadormin implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (Minusculas.isSelected() == true) {
+                Minus = true;
+            } else {
+                Minus = false;
+            }
+        }
+    }
+
+
+    private class revisaMayus implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (Mayusculas.isSelected() == true) {
+                Mayus = true;
+            } else {
+                Mayus = false;
+            }
+        }
+    }
+
+    private class revisaNUM implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (Numeros.isSelected() == true) {
+                Num = true;
+            } else {
+                Num = false;
+            }
+        }
+    }
+
+    private class revisasimb implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (Simbolos.isSelected() == true) {
+                Simb = true;
+            } else {
+                Simb = false;
+            }
+        }
+    }
 }
+
