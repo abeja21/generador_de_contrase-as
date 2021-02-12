@@ -73,24 +73,31 @@ public class generador extends JFrame {
     }
 
 
-    private class generar_contraseña implements ActionListener {
+    private class generar_contraseña implements ActionListener  {
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            int cantidad = (int) caracteres.getValue();
-            final char[] letras =
-                    {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-                            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'e', 'h', 'i', 'j', 'l', 'k', 'm',
-                            'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-                            '@', '#', '!', '$', '€', '&', '[', ']'};
-
+            String letras="";
+            String numeros = "0123456789";
+            String simbolos = "!@#$%^&*_=+-/€.?<>)";
+            String letrasMayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            String letrasMinusculas = "abcdefghijklmnopqrstuvwxyz";
+            if(Mayus==true){
+                   letras+=letrasMayusculas;
+            }
+            if (Minus==true){
+                letras+=letrasMinusculas;
+            }
+            if (Simb==true){
+                letras+=simbolos;
+            }
+            if (Num==true){
+                letras+=numeros;
+            }
             String temporal = "";
-
+            int cantidad = (int) caracteres.getValue();
             Random aleatorio = new Random();
             for (int i = 0; i < cantidad; i++) {
-                temporal += letras[aleatorio.nextInt(letras.length)];
+                temporal += letras.charAt(aleatorio.nextInt(letras.length()));
 
             }
 
@@ -115,7 +122,6 @@ public class generador extends JFrame {
             }
         }
     }
-
 
     private class revisaMayus implements ActionListener {
         @Override
