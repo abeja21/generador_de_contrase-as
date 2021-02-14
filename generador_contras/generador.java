@@ -20,7 +20,7 @@ public class generador extends JFrame {
         setLayout(new FlowLayout());
 
         JPanel p2 = new JPanel();
-        p2.setLayout(new GridLayout(3, 2, 20, 20));
+        p2.setLayout(new GridLayout(3, 2,-20,-20));
         JPanel p5 = new JPanel();
         p5.setLayout(new GridLayout(1, 2, 10, 10));
         texto_contr = new JLabel("La contraseña es:");
@@ -34,10 +34,11 @@ public class generador extends JFrame {
         JPanel p3 = new JPanel();
         JSpinner spin1 = new JSpinner(caracteres);
         ((JSpinner.DefaultEditor) spin1.getEditor()).getTextField().setEditable(false);
-        p3.setLayout(new GridLayout(2, 1, -20, -20));
+        p3.setLayout(new GridLayout(2, 2, -20, -20));
         p3.add(new JLabel("cantidad de caracteres"));
+        p3.add(new JLabel(""));
         p3.add(spin1);
-
+        p3.add(new JLabel(""));
 
         JPanel p4 = new JPanel();
         p4.setLayout(new GridLayout(4, 1, 10, 10));
@@ -56,12 +57,35 @@ public class generador extends JFrame {
         p2.add(p3);
         p2.add(p4);
 
+        JPanel tamaño_b_generar= new JPanel();
+        tamaño_b_generar.setLayout(new GridLayout(3,3));
+        tamaño_b_generar.add(new JLabel(""));
+        tamaño_b_generar.add(new JLabel(""));
+        tamaño_b_generar.add(new JLabel(""));
+        tamaño_b_generar.add(new JLabel(""));
         generar = new JButton("Generar");
-        p2.add(generar);
+        tamaño_b_generar.add(generar);
         generar.addActionListener(new generar_contraseña());
+        tamaño_b_generar.add(new JLabel(""));
+        tamaño_b_generar.add(new JLabel(""));
+        tamaño_b_generar.add(new JLabel(""));
+        tamaño_b_generar.add(new JLabel(""));
+        p2.add(tamaño_b_generar);
+
+        JPanel tamaño_b_contra=new JPanel();
+        tamaño_b_contra.setLayout(new GridLayout(3,3));
+        tamaño_b_contra.add(new JLabel(""));
+        tamaño_b_contra.add(new JLabel(""));
+        tamaño_b_contra.add(new JLabel(""));
+        tamaño_b_contra.add(new JLabel(""));
         ver_contras = new JButton("ver contraseñas");
         ver_contras.addActionListener(new menu_contras());
-        p2.add(ver_contras);
+        tamaño_b_contra.add(ver_contras);
+        tamaño_b_contra.add(new JLabel(""));
+        tamaño_b_contra.add(new JLabel(""));
+        tamaño_b_contra.add(new JLabel(""));
+        tamaño_b_contra.add(new JLabel(""));
+        p2.add(tamaño_b_contra);
         add(p2, BorderLayout.CENTER);
         setSize(600, 600);
         setVisible(true);
