@@ -1,14 +1,19 @@
 package generador_contras;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class funciones {
-    private static boolean Mayus;
-    private static boolean Minus;
-    private static boolean Num;
-    private static boolean Simb;
+    private static boolean Mayus, Minus, Num, Simb;
+
+    private static String contraseña;
 
     public static class revision_may implements ActionListener {
         @Override
@@ -54,7 +59,6 @@ public class funciones {
         }
     }
 
-
     public static class generarcontra implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -65,33 +69,62 @@ public class funciones {
             String letrasMinusculas = "abcdefghijklmnopqrstuvwxyz";
 
             try {
-            if (Mayus == true) {
-                letras += letrasMayusculas;
-            }
-            if (Minus == true) {
-                letras += letrasMinusculas;
-            }
-            if (Simb == true) {
-                letras += simbolos;
-            }
-            if (Num == true) {
-                letras += numeros;
-            }
-            String temporal = "";
-            int cantidad = (int) menu.spin1.getValue();
-            Random aleatorio = new Random();
-            for (int i = 0; i < cantidad; i++) {
+                if (Mayus == true) {
+                    letras += letrasMayusculas;
+                }
+                if (Minus == true) {
+                    letras += letrasMinusculas;
+                }
+                if (Simb == true) {
+                    letras += simbolos;
+                }
+                if (Num == true) {
+                    letras += numeros;
+                }
+                contraseña = "";
+                int cantidad = (int) menu.spin1.getValue();
+                Random aleatorio = new Random();
+                for (int i = 0; i < cantidad; i++) {
 
 
+                    contraseña += letras.charAt(aleatorio.nextInt(letras.length()));
 
-                    temporal += letras.charAt(aleatorio.nextInt(letras.length()));
+                }
 
-            }
-
-            menu.contraseña.setText(temporal);
-            }catch (IllegalArgumentException exception){
+                menu.contraseña.setText(contraseña);
+            } catch (IllegalArgumentException exception) {
                 menu.contraseña.setText("no has seleccionado ninguna casilla");
             }
+        }
+    }
+
+    public static class copy implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (contraseña == null) {
+                JOptionPane.showMessageDialog(null, "lo siento pero no hay ninguna contraseña para copiar");
+            } else {
+                Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+                StringSelection ss = new StringSelection(menu.contraseña.getText());
+                cb.setContents(ss, ss);
+                JOptionPane.showMessageDialog(null, "su contraseña se ha copiado correctamente");
+                try {
+                    FileWriter fichero = new FileWriter("C:\\Users\\morok\\IdeaProjects\\untitled\\src\\generador_contras\\contraseñas.txt",true);//la ruta es absoluta porque la relativa no le gusta :C
+                    PrintWriter pw = new PrintWriter(fichero);
+                    pw.println(menu.contraseña.getText());
+                    pw.close();
+                } catch (Exception ex) {
+
+                }
+            }
+        }
+    }
+
+    public static class registro implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            login.main();
         }
     }
 }
